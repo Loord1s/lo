@@ -1,0 +1,1139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reverse Engineering Roadmap - Zero to Mastery</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --text-color: #333;
+            --bg-color: #f8f9fa;
+            --card-bg: #ffffff;
+            --border-color: #ddd;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            padding: 2rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .tagline {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        nav {
+            background-color: var(--primary-color);
+            padding: 1rem 0;
+            position: sticky;
+            top: 106px;
+            z-index: 999;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+
+        nav a:hover {
+            background-color: var(--secondary-color);
+        }
+
+        main {
+            padding: 2rem 0;
+        }
+
+        section {
+            background: var(--card-bg);
+            margin: 2rem 0;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            color: var(--primary-color);
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            border-bottom: 3px solid var(--secondary-color);
+            padding-bottom: 0.5rem;
+        }
+
+        h3 {
+            color: var(--secondary-color);
+            font-size: 1.5rem;
+            margin-top: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        h4 {
+            color: var(--primary-color);
+            font-size: 1.2rem;
+            margin-top: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .phase-badge {
+            display: inline-block;
+            background: var(--accent-color);
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            margin-left: 0.5rem;
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .card {
+            background: var(--bg-color);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border-left: 4px solid var(--secondary-color);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .tool-card {
+            border-left-color: #9b59b6;
+        }
+
+        .lab-card {
+            border-left-color: #27ae60;
+        }
+
+        .cert-card {
+            border-left-color: #f39c12;
+        }
+
+        ul {
+            margin-left: 1.5rem;
+            margin-top: 0.5rem;
+        }
+
+        li {
+            margin: 0.5rem 0;
+        }
+
+        a {
+            color: var(--secondary-color);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        a:hover {
+            color: var(--accent-color);
+            text-decoration: underline;
+        }
+
+        .resource-link {
+            display: inline-block;
+            background: var(--secondary-color);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            margin: 0.5rem 0.5rem 0.5rem 0;
+            text-decoration: none;
+            transition: background 0.3s;
+        }
+
+        .resource-link:hover {
+            background: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .timeline {
+            position: relative;
+            padding-left: 2rem;
+            margin: 2rem 0;
+        }
+
+        .timeline-item {
+            margin-bottom: 2rem;
+            position: relative;
+        }
+
+        .timeline-item:before {
+            content: '';
+            position: absolute;
+            left: -2rem;
+            top: 0;
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background: var(--secondary-color);
+        }
+
+        .timeline-item:after {
+            content: '';
+            position: absolute;
+            left: -1.55rem;
+            top: 15px;
+            width: 2px;
+            height: calc(100% + 2rem);
+            background: var(--border-color);
+        }
+
+        .timeline-item:last-child:after {
+            display: none;
+        }
+
+        .highlight {
+            background: #fff3cd;
+            padding: 1rem;
+            border-left: 4px solid #ffc107;
+            border-radius: 5px;
+            margin: 1rem 0;
+        }
+
+        .progress-bar {
+            background: var(--border-color);
+            height: 30px;
+            border-radius: 15px;
+            overflow: hidden;
+            margin: 1rem 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--secondary-color), var(--accent-color));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            transition: width 0.5s;
+        }
+
+        footer {
+            background: var(--primary-color);
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+        }
+
+        .scroll-to-top {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: var(--secondary-color);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            transition: background 0.3s;
+        }
+
+        .scroll-to-top:hover {
+            background: var(--accent-color);
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            nav ul {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .card-grid {
+                grid-template-columns: 1fr;
+            }
+
+            nav {
+                top: 90px;
+            }
+        }
+
+        .tip-box {
+            background: #d1ecf1;
+            border-left: 4px solid #0c5460;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 5px;
+        }
+
+        .warning-box {
+            background: #f8d7da;
+            border-left: 4px solid #721c24;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>🔍 Reverse Engineering Roadmap</h1>
+            <p class="tagline">Your Complete Guide from Zero to Mastery</p>
+        </div>
+    </header>
+
+    <nav>
+        <div class="container">
+            <ul>
+                <li><a href="#intro">Introduction</a></li>
+                <li><a href="#beginner">Beginner</a></li>
+                <li><a href="#intermediate">Intermediate</a></li>
+                <li><a href="#advanced">Advanced</a></li>
+                <li><a href="#expert">Expert</a></li>
+                <li><a href="#labs">Lab Roadmap</a></li>
+                <li><a href="#resources">Resources</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="container">
+        <section id="intro">
+            <h2>What is Reverse Engineering?</h2>
+            <p>Reverse engineering is the systematic process of analyzing compiled software to understand its functionality, structure, and behavior. It's a critical skill used in malware analysis, vulnerability research, security assessment, and software protection.</p>
+
+            <div class="highlight">
+                <strong>💡 Perfect for Network Professionals:</strong> Your networking background provides an excellent foundation. Understanding network protocols will help analyze malware C2 communications, and your disciplined study approach (CCNA/EJPTv2) translates perfectly to RE mastery.
+            </div>
+
+            <h3>Timeline Overview</h3>
+            <div style="margin: 2rem 0;">
+                <div style="margin-bottom: 1rem;">
+                    <strong>Beginner (0-3 months)</strong>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 25%">Foundation</div>
+                    </div>
+                </div>
+                <div style="margin-bottom: 1rem;">
+                    <strong>Intermediate (3-8 months)</strong>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 50%">Core Skills</div>
+                    </div>
+                </div>
+                <div style="margin-bottom: 1rem;">
+                    <strong>Advanced (8-18 months)</strong>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 75%">Specialization</div>
+                    </div>
+                </div>
+                <div>
+                    <strong>Expert (18+ months)</strong>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 100%">Mastery</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="beginner">
+            <h2>🌱 Foundational Phase <span class="phase-badge">0-3 Months</span></h2>
+
+            <h3>Prerequisites</h3>
+            <div class="card-grid">
+                <div class="card">
+                    <h4>Programming Languages</h4>
+                    <ul>
+                        <li><strong>C/C++:</strong> Understand how high-level code translates to machine instructions</li>
+                        <li><strong>Python:</strong> For scripting and automation</li>
+                        <li><strong>Assembly (x86/x64):</strong> Critical for reading disassembled code</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h4>Computer Architecture</h4>
+                    <ul>
+                        <li>Memory management (stack & heap)</li>
+                        <li>CPU registers and operations</li>
+                        <li>Operating system internals</li>
+                        <li>Windows PE format basics</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h3>Essential Tools Setup</h3>
+            <div class="tip-box">
+                <strong>🛠️ Lab Environment:</strong> Always use isolated virtual machines (VMware/VirtualBox) with snapshots. Never analyze malware on your host system!
+            </div>
+
+            <div class="card-grid">
+                <div class="card tool-card">
+                    <h4>Disassemblers</h4>
+                    <ul>
+                        <li><strong>Ghidra:</strong> Free, NSA-developed, excellent decompiler</li>
+                        <li><strong>IDA Free:</strong> Industry standard with plugin ecosystem</li>
+                        <li><strong>Binary Ninja:</strong> Modern alternative with good UI</li>
+                    </ul>
+                    <a href="https://ghidra-sre.org/" class="resource-link" target="_blank">Get Ghidra</a>
+                    <a href="https://hex-rays.com/ida-free/" class="resource-link" target="_blank">Get IDA Free</a>
+                </div>
+
+                <div class="card tool-card">
+                    <h4>Debuggers</h4>
+                    <ul>
+                        <li><strong>x64dbg/x32dbg:</strong> Modern Windows debuggers</li>
+                        <li><strong>OllyDbg:</strong> Classic tool, great for learning</li>
+                        <li><strong>WinDbg:</strong> For kernel-mode debugging</li>
+                        <li><strong>GDB:</strong> Linux binary debugging</li>
+                    </ul>
+                    <a href="https://x64dbg.com/" class="resource-link" target="_blank">Get x64dbg</a>
+                </div>
+
+                <div class="card tool-card">
+                    <h4>Analysis Tools</h4>
+                    <ul>
+                        <li><strong>PE-bear:</strong> PE file analysis</li>
+                        <li><strong>Process Monitor:</strong> Runtime monitoring</li>
+                        <li><strong>Process Hacker:</strong> Advanced task manager</li>
+                        <li><strong>Wireshark:</strong> Network traffic analysis</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h3>Learning Resources</h3>
+            <div class="card-grid">
+                <div class="card">
+                    <h4>📚 Books</h4>
+                    <ul>
+                        <li>"Reverse Engineering for Beginners" - Dennis Yurichev (FREE)</li>
+                        <li>"Hacking: The Art of Exploitation" - Jon Erickson</li>
+                        <li>"The IDA Pro Book" - Chris Eagle</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h4>🎓 Courses</h4>
+                    <ul>
+                        <li>OpenSecurityTraining - Introductory x86</li>
+                        <li>Lena's Reversing for Newbies (OllyDbg)</li>
+                        <li>Malware Unicorn RE101</li>
+                    </ul>
+                    <a href="https://malwareunicorn.org/workshops/re101.html" class="resource-link" target="_blank">Malware Unicorn RE101</a>
+                </div>
+            </div>
+
+            <h3>Beginner Labs</h3>
+            <div class="card-grid">
+                <div class="card lab-card">
+                    <h4>Crackmes.one</h4>
+                    <p>Simple password-checking programs perfect for beginners. Start with difficulty level 1.0-2.0.</p>
+                    <a href="https://crackmes.one/" class="resource-link" target="_blank">Start Practicing</a>
+                </div>
+                <div class="card lab-card">
+                    <h4>picoCTF</h4>
+                    <p>Beginner-friendly CTF challenges including reverse engineering problems.</p>
+                    <a href="https://picoctf.org/" class="resource-link" target="_blank">Join picoCTF</a>
+                </div>
+                <div class="card lab-card">
+                    <h4>RPISEC MBE</h4>
+                    <p>Modern Binary Exploitation course with foundational CTF-style challenges.</p>
+                    <a href="https://github.com/RPISEC/MBE" class="resource-link" target="_blank">Access Course</a>
+                </div>
+            </div>
+        </section>
+
+        <section id="intermediate">
+            <h2>📈 Intermediate Phase <span class="phase-badge">3-8 Months</span></h2>
+
+            <h3>Core Skills Development</h3>
+            <div class="card-grid">
+                <div class="card">
+                    <h4>Static Analysis</h4>
+                    <ul>
+                        <li>Reading disassembled code fluently</li>
+                        <li>Identifying functions and their purposes</li>
+                        <li>Recognizing code patterns (loops, conditionals)</li>
+                        <li>Understanding calling conventions (stdcall, cdecl, fastcall)</li>
+                        <li>Analyzing control flow graphs</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h4>Dynamic Analysis</h4>
+                    <ul>
+                        <li>Strategic breakpoint placement</li>
+                        <li>Stepping through code execution</li>
+                        <li>Monitoring memory and register changes</li>
+                        <li>API call tracing</li>
+                        <li>Runtime behavior analysis</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h4>Anti-Analysis Recognition</h4>
+                    <ul>
+                        <li>Anti-debugging checks (IsDebuggerPresent)</li>
+                        <li>Code obfuscation techniques</li>
+                        <li>Packer identification (UPX, Themida)</li>
+                        <li>Anti-VM detection</li>
+                        <li>String encryption</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h3>Advanced Tool Usage</h3>
+            <div class="card-grid">
+                <div class="card tool-card">
+                    <h4>Scripting & Automation</h4>
+                    <ul>
+                        <li>IDAPython for IDA Pro automation</li>
+                        <li>Ghidra Python API scripting</li>
+                        <li>Custom plugin development</li>
+                        <li>YARA rule creation</li>
+                    </ul>
+                </div>
+                <div class="card tool-card">
+                    <h4>Specialized Tools</h4>
+                    <ul>
+                        <li><strong>dnSpy:</strong> .NET assembly analysis</li>
+                        <li><strong>JD-GUI:</strong> Java decompilation</li>
+                        <li><strong>Frida:</strong> Dynamic instrumentation</li>
+                        <li><strong>Volatility:</strong> Memory forensics</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h3>Learning Resources</h3>
+            <div class="card-grid">
+                <div class="card">
+                    <h4>📚 Essential Books</h4>
+                    <ul>
+                        <li><strong>"Practical Malware Analysis"</strong> - Sikorski & Honig (Industry Bible)</li>
+                        <li>"Reversing: Secrets of Reverse Engineering" - Eldad Eilam</li>
+                        <li>"Practical Binary Analysis" - Dennis Andriesse</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h4>🎥 YouTube Channels</h4>
+                    <ul>
+                        <li><strong>OALabs:</strong> Live malware analysis</li>
+                        <li><strong>LiveOverflow:</strong> CTF walkthroughs</li>
+                        <li><strong>stacksmashing:</strong> Hardware/software RE</li>
+                        <li><strong>John Hammond:</strong> Security tutorials</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h3>Intermediate Labs</h3>
+            <div class="card-grid">
+                <div class="card lab-card">
+                    <h4>HackTheBox</h4>
+                    <p>Realistic scenarios requiring multi-step analysis. Start with "Easy" rated reversing challenges.</p>
+                    <a href="https://www.hackthebox.com/" class="resource-link" target="_blank">Join HTB</a>
+                </div>
+                <div class="card lab-card">
+                    <h4>TryHackMe</h4>
+                    <p>Guided reverse engineering rooms with explanations and hints.</p>
+                    <a href="https://tryhackme.com/" class="resource-link" target="_blank">Try THM</a>
+                </div>
+                <div class="card lab-card">
+                    <h4>Root-Me</h4>
+                    <p>Progressive challenges covering various RE techniques and architectures.</p>
+                    <a href="https://www.root-me.org/" class="resource-link" target="_blank">Start Challenges</a>
+                </div>
+                <div class="card lab-card">
+                    <h4>Pwnable.kr</h4>
+                    <p>Binary exploitation and RE challenges with increasing difficulty.</p>
+                    <a href="http://pwnable.kr/" class="resource-link" target="_blank">Practice Here</a>
+                </div>
+            </div>
+
+            <div class="warning-box">
+                <strong>⚠️ Malware Analysis Warning:</strong> Only analyze malware in isolated, air-gapped virtual machines. Use snapshots before analysis. Never connect to the internet while analyzing live malware!
+            </div>
+        </section>
+
+        <section id="advanced">
+            <h2>🚀 Advanced Phase <span class="phase-badge">8-18 Months</span></h2>
+
+            <h3>Advanced Techniques</h3>
+            <div class="card-grid">
+                <div class="card">
+                    <h4>Unpacking & Deobfuscation</h4>
+                    <ul>
+                        <li>Identifying packing techniques (UPX, Themida, VMProtect)</li>
+                        <li>Manual unpacking methods</li>
+                        <li>Writing custom unpacking scripts</li>
+                        <li>Defeating anti-debugging measures</li>
+                        <li>Control flow deobfuscation</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h4>Advanced Static Analysis</h4>
+                    <ul>
+                        <li>Control flow graph analysis</li>
+                        <li>Data flow analysis</li>
+                        <li>Identifying cryptographic algorithms</li>
+                        <li>Recognizing exploit techniques</li>
+                        <li>Binary diffing for patch analysis</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h4>Advanced Dynamic Analysis</h4>
+                    <ul>
+                        <li>Memory forensics with Volatility</li>
+                        <li>Kernel debugging</li>
+                        <li>API hooking and monitoring</li>
+                        <li>Sandbox analysis (Cuckoo, Joe Sandbox)</li>
+                        <li>Emulation with QEMU/Unicorn</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h3>Specialized Areas</h3>
+            <div class="card-grid">
+                <div class="card">
+                    <h4>.NET & Managed Code</h4>
+                    <ul>
+                        <li>dnSpy for .NET assembly analysis</li>
+                        <li>ILSpy decompilation</li>
+                        <li>.NET obfuscation techniques</li>
+                        <li>de4dot deobfuscation</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h4>Document Malware</h4>
+                    <ul>
+                        <li>Malicious PDF analysis (pdf-parser, pdfid)</li>
+                        <li>Office macro analysis (olevba)</li>
+                        <li>RTF exploits</li>
+                        <li>Embedded object extraction</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h4>Mobile & Architecture</h4>
+                    <ul>
+                        <li>ARM assembly for mobile devices</li>
+                        <li>Android APK reversing (APKTool, jadx)</li>
+                        <li>iOS binary analysis</li>
+                        <li>MIPS for embedded systems</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h3>Advanced Learning Resources</h3>
+            <div class="card-grid">
+                <div class="card">
+                    <h4>📚 Advanced Books</h4>
+                    <ul>
+                        <li>"Practical Reverse Engineering" - Dang, Gazet, Bachaalany</li>
+                        <li>"The Malware Analyst's Cookbook"</li>
+                        <li>"Windows Internals" - Russinovich & Solomon</li>
+                        <li>"Rootkits and Bootkits" - Matrosov</li>
+                    </ul>
+                </div>
+                <div class="card cert-card">
+                    <h4>🎓 Professional Courses</h4>
+                    <ul>
+                        <li><strong>SANS FOR610:</strong> Reverse-Engineering Malware</li>
+                        <li><strong>eLearnSecurity ARES:</strong> Advanced Reverse Engineering</li>
+                        <li>Practical Malware Analysis & Triage (PMAT)</li>
+                    </ul>
+                    <a href="https://www.sans.org/cyber-security-courses/reverse-engineering-malware-malware-analysis-tools-techniques/" class="resource-link" target="_blank">SANS FOR610</a>
+                </div>
+            </div>
+
+            <h3>Advanced Labs & Challenges</h3>
+            <div class="card-grid">
+                <div class="card lab-card">
+                    <h4>Flare-On Challenge</h4>
+                    <p>FireEye's annual RE competition with progressively difficult challenges. Previous years available for practice.</p>
+                    <a href="https://flare-on.com/" class="resource-link" target="_blank">Flare-On</a>
+                </div>
+                <div class="card lab-card">
+                    <h4>MalwareBazaar</h4>
+                    <p>Real malware samples for analysis. Start with older, well-documented families.</p>
+                    <a href="https://bazaar.abuse.ch/" class="resource-link" target="_blank">MalwareBazaar</a>
+                </div>
+                <div class="card lab-card">
+                    <h4>Any.Run Interactive</h4>
+                    <p>Interactive malware analysis sandbox with real-time feedback.</p>
+                    <a href="https://any.run/" class="resource-link" target="_blank">Any.Run</a>
+                </div>
+                <div class="card lab-card">
+                    <h4>RPISEC Malware Analysis</h4>
+                    <p>University-level malware analysis course with practical labs.</p>
+                    <a href="https://github.com/RPISEC/Malware" class="resource-link" target="_blank">Access Course</a>
+                </div>
+            </div>
+        </section>
+
+        <section id="expert">
+            <h2>🏆 Expert Level <span class="phase-badge">18+ Months</span></h2>
+
+            <h3>Mastery Focus Areas</h3>
+            <div class="card-grid">
+                <div class="card">
+                    <h4>Original Research</h4>
+                    <ul>
+                        <li>Discovering zero-day vulnerabilities</li>
+                        <li>Publishing research papers and blogs</li>
+                        <li>Contributing to open-source RE tools</li>
+                        <li>APT malware family analysis</li>
+                        <li>Threat intelligence contribution</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h4>Tool Development</h4>
+                    <ul>
+                        <li>Custom IDA/Ghidra plugins</li>
+                        <li>Automated analysis frameworks</li>
+                        <li>YARA rule creation</li>
+                        <li>Binary instrumentation tools</li>
+                        <li>Custom unpacking solutions</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h4>Specialized Domains</h4>
+                    <ul>
+                        <li>IoT and embedded systems RE</li>
+                        <li>Mobile malware (Android/iOS)</li>
+                        <li>Rootkit and bootkit analysis</li>
+                        <li>Firmware reversing</li>
+                        <li>Game hacking and anti-cheat</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h3>Professional Certifications</h3>
+            <div class="card-grid">
+                <div class="card cert-card">
+                    <h4>GIAC GREM</h4>
+                    <p><strong>GIAC Reverse Engineering Malware</strong> - Industry gold standard certification</p>
+                    <ul>
+                        <li>73% passing score required</li>
+                        <li>66-75 question exam</li>
+                        <li>Hands-on CyberLive component</li>
+                        <li>Requires SANS FOR610 or equivalent</li>
+                    </ul>
+                    <a href="https://www.giac.org/certifications/reverse-engineering-malware-grem/" class="resource-link" target="_blank">GREM Info</a>
+                </div>
+                <div class="card cert-card">
+                    <h4>MCSI MRE</h4>
+                    <p><strong>Certified Reverse Engineer</strong> - Practical competency validation</p>
+                    <ul>
+                        <li>100% hands-on practical exercises</li>
+                        <li>Real-world scenario based</li>
+                        <li>Self-paced learning</li>
+                    </ul>
+                    <a href="https://www.mosse-institute.com/certifications/mre-certified-reverse-engineer.html" class="resource-link" target="_blank">MRE Info</a>
+                </div>
+                <div class="card cert-card">
+                    <h4>GIAC GCFA</h4>
+                    <p><strong>Certified Forensic Analyst</strong> - Complements RE with forensics</p>
+                    <ul>
+                        <li>Memory forensics</li>
+                        <li>Incident response</li>
+                        <li>Malware triage</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h3>Expert Practice & Contribution</h3>
+            <div class="card-grid">
+                <div class="card">
+                    <h4>🔬 Research Activities</h4>
+                    <ul>
+                        <li>Analyze APT campaigns (Lazarus, APT29, etc.)</li>
+                        <li>Contribute to VirusTotal intelligence</li>
+                        <li>Write technical blog posts</li>
+                        <li>Present at conferences (REcon, Black Hat, DEF CON)</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h4>💼 Professional Work</h4>
+                    <ul>
+                        <li>Bug bounty programs (HackerOne, Bugcrowd)</li>
+                        <li>Live incident response</li>
+                        <li>Malware family tracking</li>
+                        <li>Security product testing</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h4>🌐 Community Engagement</h4>
+                    <ul>
+                        <li>Mentor beginners</li>
+                        <li>Contribute to open-source projects</li>
+                        <li>Create training materials</li>
+                        <li>Participate in threat sharing communities</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h3>Continuous Learning Resources</h3>
+            <div class="card-grid">
+                <div class="card">
+                    <h4>Security Blogs</h4>
+                    <ul>
+                        <li>Malwarebytes Labs</li>
+                        <li>Krebs on Security</li>
+                        <li>Talos Intelligence</li>
+                        <li>FireEye Threat Research</li>
+                        <li>Kaspersky SecureList</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h4>Threat Intelligence</h4>
+                    <ul>
+                        <li>MISP Project</li>
+                        <li>AlienVault OTX</li>
+                        <li>VirusTotal Intelligence</li>
+                        <li>Hybrid Analysis</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h4>Conferences</h4>
+                    <ul>
+                        <li>REcon (Reverse Engineering Conference)</li>
+                        <li>Black Hat</li>
+                        <li>DEF CON</li>
+                        <li>HITB</li>
+                        <li>OffensiveCon</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="labs">
+            <h2>🎯 Progressive Lab Roadmap</h2>
+            <p>Follow this timeline for systematic skill development through hands-on practice:</p>
+
+            <div class="timeline">
+                <div class="timeline-item">
+                    <h3>Month 1-2: Basic Crackmes</h3>
+                    <p>Solve 10-15 easy crackmes on Crackmes.one</p>
+                    <ul>
+                        <li>Focus on string comparisons</li>
+                        <li>Simple conditional jumps (JZ, JNZ)</li>
+                        <li>Password validation logic</li>
+                        <li>Basic patching techniques</li>
+                    </ul>
+                    <a href="https://crackmes.one/" class="resource-link" target="_blank">Start Crackmes</a>
+                </div>
+
+                <div class="timeline-item">
+                    <h3>Month 3-4: CTF Reversing Challenges</h3>
+                    <p>Complete beginner RE challenges</p>
+                    <ul>
+                        <li>picoCTF reverse engineering section</li>
+                        <li>OverTheWire Narnia (buffer overflows)</li>
+                        <li>Basic flag extraction</li>
+                        <li>Simple encoding schemes</li>
+                    </ul>
+                    <a href="https://picoctf.org/" class="resource-link" target="_blank">picoCTF</a>
+                </div>
+
+                <div class="timeline-item">
+                    <h3>Month 5-6: Packed Executables</h3>
+                    <p>Practice unpacking techniques</p>
+                    <ul>
+                        <li>UPX-packed binaries (easiest)</li>
+                        <li>Identifying packer signatures</li>
+                        <li>Original Entry Point (OEP) finding</li>
+                        <li>Dump unpacked code</li>
+                    </ul>
+                </div>
+
+                <div class="timeline-item">
+                    <h3>Month 7-9: Real Malware Samples</h3>
+                    <p>Analyze beginner-friendly malware</p>
+                    <ul>
+                        <li>Older ransomware families (WannaCry, Petya)</li>
+                        <li>Simple trojans and backdoors</li>
+                        <li>Network behavior analysis</li>
+                        <li>IOC extraction</li>
+                    </ul>
+                    <a href="https://bazaar.abuse.ch/" class="resource-link" target="_blank">MalwareBazaar</a>
+                </div>
+
+                <div class="timeline-item">
+                    <h3>Month 10-12: Platform CTFs</h3>
+                    <p>Rank up on dedicated platforms</p>
+                    <ul>
+                        <li>HackTheBox "Easy" reversing challenges</li>
+                        <li>TryHackMe RE rooms</li>
+                        <li>Root-Me progression challenges</li>
+                        <li>Achieve intermediate ranking</li>
+                    </ul>
+                    <a href="https://www.hackthebox.com/" class="resource-link" target="_blank">HackTheBox</a>
+                </div>
+
+                <div class="timeline-item">
+                    <h3>Month 13-15: Advanced Packers</h3>
+                    <p>Tackle sophisticated protection</p>
+                    <ul>
+                        <li>Themida/WinLicense</li>
+                        <li>VMProtect virtualization</li>
+                        <li>Custom obfuscation</li>
+                        <li>Anti-debugging bypass</li>
+                    </ul>
+                </div>
+
+                <div class="timeline-item">
+                    <h3>Month 16-18: Competition Participation</h3>
+                    <p>Join live competitions</p>
+                    <ul>
+                        <li>Monthly CTFs from CTFtime</li>
+                        <li>Previous Flare-On challenges</li>
+                        <li>Google CTF reversing</li>
+                        <li>Team collaboration</li>
+                    </ul>
+                    <a href="https://flare-on.com/" class="resource-link" target="_blank">Flare-On</a>
+                    <a href="https://ctftime.org/" class="resource-link" target="_blank">CTFtime</a>
+                </div>
+
+                <div class="timeline-item">
+                    <h3>Month 18+: Original Research</h3>
+                    <p>Conduct independent analysis</p>
+                    <ul>
+                        <li>APT malware families (Lazarus, APT28)</li>
+                        <li>Zero-day vulnerability hunting</li>
+                        <li>Publish writeups and research</li>
+                        <li>Contribute to threat intelligence</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="resources">
+            <h2>📚 Comprehensive Resource Hub</h2>
+
+            <h3>Complete Learning Platforms</h3>
+            <div class="card-grid">
+                <div class="card">
+                    <h4>GitHub Repositories</h4>
+                    <ul>
+                        <li><a href="https://github.com/x86byte/RE-MA-Roadmap" target="_blank">RE-MA-Roadmap</a> - Most comprehensive guide</li>
+                        <li><a href="https://github.com/0xZ0F/Z0FCourse_ReverseEngineering" target="_blank">Z0F RE Course</a> - Complete x64 Windows course</li>
+                        <li><a href="https://github.com/wtsxDev/reverse-engineering" target="_blank">Awesome RE Resources</a> - Curated list</li>
+                        <li><a href="https://github.com/tylerha97/awesome-reversing" target="_blank">Awesome Reversing</a> - Tools & resources</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h4>Practice Platforms</h4>
+                    <ul>
+                        <li><a href="https://crackmes.one/" target="_blank">Crackmes.one</a> - Cracking challenges</li>
+                        <li><a href="https://www.hackthebox.com/" target="_blank">HackTheBox</a> - Realistic scenarios</li>
+                        <li><a href="https://tryhackme.com/" target="_blank">TryHackMe</a> - Guided learning</li>
+                        <li><a href="https://www.root-me.org/" target="_blank">Root-Me</a> - Progressive challenges</li>
+                        <li><a href="http://pwnable.kr/" target="_blank">Pwnable.kr</a> - Binary exploitation</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h3>Essential Tool Downloads</h3>
+            <div class="card-grid">
+                <div class="card tool-card">
+                    <h4>Disassemblers & Decompilers</h4>
+                    <ul>
+                        <li><a href="https://ghidra-sre.org/" target="_blank">Ghidra</a> (FREE)</li>
+                        <li><a href="https://hex-rays.com/ida-free/" target="_blank">IDA Free</a></li>
+                        <li><a href="https://binary.ninja/" target="_blank">Binary Ninja</a></li>
+                        <li><a href="https://cutter.re/" target="_blank">Cutter</a> (Radare2 GUI)</li>
+                    </ul>
+                </div>
+                <div class="card tool-card">
+                    <h4>Debuggers</h4>
+                    <ul>
+                        <li><a href="https://x64dbg.com/" target="_blank">x64dbg</a> (FREE)</li>
+                        <li><a href="http://www.ollydbg.de/" target="_blank">OllyDbg</a></li>
+                        <li><a href="https://docs.microsoft.com/en-us/windows-hardware/drivers/debugger/" target="_blank">WinDbg</a></li>
+                        <li><a href="https://www.gnu.org/software/gdb/" target="_blank">GDB</a> (Linux)</li>
+                    </ul>
+                </div>
+                <div class="card tool-card">
+                    <h4>Specialized Tools</h4>
+                    <ul>
+                        <li><a href="https://github.com/hasherezade/pe-bear" target="_blank">PE-bear</a> - PE analysis</li>
+                        <li><a href="https://github.com/dnSpy/dnSpy" target="_blank">dnSpy</a> - .NET analysis</li>
+                        <li><a href="https://frida.re/" target="_blank">Frida</a> - Dynamic instrumentation</li>
+                        <li><a href="https://www.volatilityfoundation.org/" target="_blank">Volatility</a> - Memory forensics</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h3>Community & Forums</h3>
+            <div class="card-grid">
+                <div class="card">
+                    <h4>Discussion Platforms</h4>
+                    <ul>
+                        <li><a href="https://www.reddit.com/r/ReverseEngineering/" target="_blank">r/ReverseEngineering</a></li>
+                        <li><a href="https://www.reddit.com/r/Malware/" target="_blank">r/Malware</a></li>
+                        <li><a href="https://discord.gg/malware" target="_blank">Malware Analysis Discord</a></li>
+                        <li><a href="https://forum.tuts4you.com/" target="_blank">Tuts4You Forum</a></li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h4>Learning Communities</h4>
+                    <ul>
+                        <li><a href="https://opensecuritytraining.info/" target="_blank">OpenSecurityTraining</a></li>
+                        <li><a href="https://www.malware-traffic-analysis.net/" target="_blank">Malware Traffic Analysis</a></li>
+                        <li><a href="https://www.vx-underground.org/" target="_blank">vx-underground</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="tip-box">
+                <strong>💡 Pro Tip:</strong> Join multiple communities, participate in discussions, and share your learning journey. The RE community is welcoming and collaborative. Don't hesitate to ask questions!
+            </div>
+        </section>
+
+        <section>
+            <h2>🎓 Study Tips & Best Practices</h2>
+
+            <div class="card-grid">
+                <div class="card">
+                    <h4>Daily Practice Routine</h4>
+                    <ul>
+                        <li><strong>1 hour:</strong> Study theory (books, tutorials)</li>
+                        <li><strong>2 hours:</strong> Hands-on labs and challenges</li>
+                        <li><strong>30 minutes:</strong> Read security blogs and research</li>
+                        <li>Consistency beats intensity</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h4>Documentation Habits</h4>
+                    <ul>
+                        <li>Keep detailed notes in Obsidian or Notion</li>
+                        <li>Create personal cheat sheets</li>
+                        <li>Write challenge writeups (even if private)</li>
+                        <li>Build a personal knowledge base</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h4>Lab Management</h4>
+                    <ul>
+                        <li>Take VM snapshots before each analysis</li>
+                        <li>Organize malware samples by family</li>
+                        <li>Document IOCs systematically</li>
+                        <li>Never skip safety measures</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h4>Skill Progression</h4>
+                    <ul>
+                        <li>Don't rush - master fundamentals first</li>
+                        <li>Solve challenges multiple ways</li>
+                        <li>Learn from failed attempts</li>
+                        <li>Teach others to reinforce knowledge</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="highlight">
+                <strong>🎯 Your Network Background Advantage:</strong>
+                <ul>
+                    <li><strong>Protocol Knowledge:</strong> Analyze malware C2 communications easily</li>
+                    <li><strong>Traffic Analysis:</strong> Identify suspicious network behavior</li>
+                    <li><strong>CCNA/EJPTv2 Discipline:</strong> Structured study approach transfers perfectly</li>
+                    <li><strong>Security Mindset:</strong> Already thinking like an attacker/defender</li>
+                </ul>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <h3>🚀 Your Journey Starts Now</h3>
+            <p>Reverse engineering mastery takes dedication, but with consistent practice and this roadmap, you'll progress from zero to expert.</p>
+            <p style="margin-top: 1rem;">Last Updated: November 2025</p>
+            <p style="margin-top: 0.5rem; font-size: 0.9rem;">Remember: Every expert was once a beginner. Start with the basics, practice daily, and never stop learning.</p>
+        </div>
+    </footer>
+
+    <div class="scroll-to-top" id="scrollBtn" onclick="scrollToTop()">↑</div>
+
+    <script>
+        // Scroll to top functionality
+        window.onscroll = function() {
+            const scrollBtn = document.getElementById('scrollBtn');
+            if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
+                scrollBtn.style.display = 'flex';
+            } else {
+                scrollBtn.style.display = 'none';
+            }
+        };
+
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Add external link icons
+        document.querySelectorAll('a[target="_blank"]').forEach(link => {
+            if (!link.querySelector('span')) {
+                link.innerHTML += ' ↗';
+            }
+        });
+    </script>
+</body>
+</html>
